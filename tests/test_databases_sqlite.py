@@ -31,10 +31,10 @@ async def main(sqlite_db):
         pytest.fail("no data in database")
 
 
-def transaction_wrapper(func, force_rollback=True):
+def transaction_wrapper(func, rollback=True):
     @functools.wraps(func)
     async def wrapper(sqlite_db, *args, **kwargs):
-        async with sqlite_db.transaction(force_rollback=force_rollback):
+        async with sqlite_db.transaction(force_rollback=rollback):
             return await func(sqlite_db, *args, **kwargs)
 
     return wrapper
